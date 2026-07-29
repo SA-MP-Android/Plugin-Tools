@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "top.th1nk.plugins.crosshair_guide",
+  "name": "Crosshair Guide",
+  "version": "1.0.0",
+  "apiVersion": "^1.0",
+  "entry": "main.lua",
+  "description": "Demonstrates configurable HUD line and rectangle drawing.",
+  "activationMode": "immediate",
+  "permissions": [
+    "plugin.storage",
+    "ui.menu",
+    "ui.draw"
+  ],
+  "contexts": [
+    "multiplayer"
+  ],
+  "author": {
+    "name": "SA-MP Android"
+  }
+}

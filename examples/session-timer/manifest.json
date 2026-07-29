@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "top.th1nk.plugins.session_timer",
+  "name": "Session Timer",
+  "version": "1.0.0",
+  "apiVersion": "^1.0",
+  "entry": "main.lua",
+  "description": "Shows how long the current plugin session has been running.",
+  "activationMode": "immediate",
+  "permissions": [
+    "plugin.storage",
+    "ui.menu",
+    "ui.draw"
+  ],
+  "contexts": [
+    "multiplayer"
+  ],
+  "author": {
+    "name": "SA-MP Android"
+  }
+}

@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Verify
+        run: |
+          go test ./...
+          go vet ./...
+
+      - name: Build release archives
+        run: bash scripts/build-release.sh "${GITHUB_REF_NAME}"
+
+      - name: Verify release archives
+        run: |
+          (
+            cd dist
+            sha256sum --check checksums.txt
+          )
+          for archive in dist/*.tar.gz; do
+            tar -tzf "${archive}" >/dev/null
+          done
+          for archive in dist/*.zip; do
+            unzip -tq "${archive}"
+          done
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          options=(
+            "${GITHUB_REF_NAME}"
+            --verify-tag
+            --generate-notes
+            --title "${GITHUB_REF_NAME}"
+          )
+          if [[ "${GITHUB_REF_NAME}" == *-* ]]; then
+            options+=(--prerelease)
+          fi
+          gh release create \
+            "${options[@]}" \
+            dist/*.tar.gz \
+            dist/*.zip \
+            dist/checksums.txt

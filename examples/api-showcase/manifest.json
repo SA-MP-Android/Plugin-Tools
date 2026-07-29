@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "top.th1nk.plugins.example",
+  "name": "Plugin API Example",
+  "version": "1.0.0",
+  "apiVersion": "^1.0",
+  "entry": "main.lua",
+  "description": "Demonstrates mutable damage events, controlled writes, low-level physics leases, Lua-composed gameplay, menus and HUD drawing.",
+  "activationMode": "immediate",
+  "permissions": [
+    "plugin.storage",
+    "game.state.read",
+    "game.player.read",
+    "game.player.write",
+    "game.vehicle.read",
+    "game.entity.read",
+    "game.vehicle.write",
+    "game.physics.override",
+    "server.state.read",
+    "chat.read",
+    "chat.intercept",
+    "command.intercept",
+    "dialog.read",
+    "dialog.intercept",
+    "textdraw.read",
+    "textdraw.intercept",
+    "ui.menu",
+    "ui.draw"
+  ],
+  "contexts": [
+    "multiplayer"
+  ],
+  "author": {
+    "name": "SA-MP Android"
+  }
+}

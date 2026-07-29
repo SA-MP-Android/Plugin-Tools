@@ -1,0 +1,5 @@
+# API showcase
+
+Run `samp-plugin pack examples/api-showcase` from the repository root. Import the generated `.splug` from **Resources → Plugins**, and enable it from the in-game plugin menu. The nested module must be stored as `modules/defaults.lua`; a ZIP entry named `modules\defaults.lua` is intentionally rejected as an unsafe path.
+
+This example uses the current API 1.0 contract. Its menu demonstrates validated player and vehicle setters, Lua-defined invulnerability and standing policies, local collision surfaces, air walking and selective-collision noclip. These gameplay features are implemented in Lua from mutable damage events, explicit physics flags, generic position/velocity, frame events, TextDraw lifecycle/click interception, generation-safe server entity Handles, Surface Handles and collision-filter leases. Features start disabled and are not persisted. If a resource is invalidated by a player-generation change, the example reacquires it from the new `player.spawned` callback instead of reusing an old Handle or lease. Enable movement features while the player is on foot.

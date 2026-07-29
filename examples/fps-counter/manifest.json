@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "top.th1nk.plugins.fps_counter",
+  "name": "FPS Counter",
+  "version": "1.0.0",
+  "apiVersion": "^1.0",
+  "entry": "main.lua",
+  "description": "Displays a smoothed frame-rate counter on the HUD.",
+  "activationMode": "immediate",
+  "permissions": [
+    "plugin.storage",
+    "ui.menu",
+    "ui.draw"
+  ],
+  "contexts": [
+    "multiplayer"
+  ],
+  "author": {
+    "name": "SA-MP Android"
+  }
+}
