@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "top.th1nk.plugins.air_walk",
+  "name": "Air Walk",
+  "version": "1.0.0",
+  "apiVersion": "^1.0",
+  "entry": "main.lua",
+  "description": "Air Walk platform with optional jump climbing and monotonic upward position tracking.",
+  "activationMode": "immediate",
+  "permissions": ["plugin.storage", "game.player.read", "game.player.write", "game.vehicle.read", "game.physics.override", "ui.menu"],
+  "contexts": ["multiplayer"],
+  "author": { "name": "SA-MP Android" }
+}
