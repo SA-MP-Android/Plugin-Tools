@@ -6,6 +6,7 @@ These examples only use Plugin API 1.0 features implemented by the current runti
 - `fps-counter`: smoothed FPS display with menu controls.
 - `session-timer`: elapsed session time with pause and reset controls.
 - `crosshair-guide`: configurable line and rectangle drawing.
+- `always-stand`: keeps the local player standing upright with a `player.physics_flags` lease.
 
 All examples declare immediate activation. Their menu values use `samp.storage`, so settings survive plugin reloads and later game sessions. The FPS counter uses `samp.format.number(value, precision)` for bounded, platform-independent numeric HUD formatting. Plugin code should prefer this API over Lua's native floating-point string formatting.
 
