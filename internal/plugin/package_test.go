@@ -17,6 +17,12 @@ func TestExamplesValidateAndPackDeterministically(t *testing.T) {
 		"fps-counter",
 		"session-timer",
 	}
+	expectedVersions := map[string]string{
+		"api-showcase":    "1.0.0",
+		"crosshair-guide": "1.0.0",
+		"fps-counter":     "1.1.0",
+		"session-timer":   "1.0.0",
+	}
 	for _, name := range examples {
 		t.Run(name, func(t *testing.T) {
 			source := filepath.Join(root, "examples", name)
@@ -24,7 +30,7 @@ func TestExamplesValidateAndPackDeterministically(t *testing.T) {
 			if err != nil {
 				t.Fatalf("validate source: %v", err)
 			}
-			if info.Manifest.Version != "1.0.0" {
+			if info.Manifest.Version != expectedVersions[name] {
 				t.Fatalf("unexpected version %q", info.Manifest.Version)
 			}
 
@@ -85,6 +91,46 @@ func TestManifestRejectsUnsupportedPermission(t *testing.T) {
 	}`)
 	if _, err := ParseManifest(data); err == nil {
 		t.Fatal("unsupported permission unexpectedly passed validation")
+	}
+}
+
+func TestAPIVersionCompatibilityMatchesClient(t *testing.T) {
+	tests := map[string]bool{
+		"1.0":     true,
+		"^1.0":    true,
+		"1.1":     true,
+		"^1.1":    true,
+		"1.2":     false,
+		"^1.2":    false,
+		"2.0":     false,
+		"^0.1":    false,
+		"1.00000": false,
+	}
+	for requirement, want := range tests {
+		t.Run(requirement, func(t *testing.T) {
+			if got := supportsAPI(requirement, "1.1"); got != want {
+				t.Fatalf("supportsAPI(%q, %q) = %v, want %v", requirement, "1.1", got, want)
+			}
+		})
+	}
+}
+
+func TestManifestAcceptsAPI11Contract(t *testing.T) {
+	data := []byte(`{
+		"schemaVersion": 1,
+		"id": "top.example.api11",
+		"name": "API 1.1",
+		"version": "1.0.0",
+		"apiVersion": "1.1",
+		"entry": "main.lua",
+		"permissions": ["network.inspect", "game.camera.control"]
+	}`)
+	manifest, err := ParseManifest(data)
+	if err != nil {
+		t.Fatalf("parse API 1.1 manifest: %v", err)
+	}
+	if manifest.APIVersion != "1.1" {
+		t.Fatalf("unexpected API version %q", manifest.APIVersion)
 	}
 }
 

@@ -9,7 +9,7 @@ This repository does not contain the SA-MP Android client source code. The clien
 ## Contents
 
 - `samp-plugin`: a cross-platform Go CLI for validating plugin projects and creating `.splug` packages.
-- `api/schema.json`: a machine-readable snapshot of the current Plugin API 1.0 contract.
+- `api/schema.json`: a machine-readable snapshot of the current Plugin API 1.1 contract.
 - `examples/`: independent example plugins that can be validated, packaged, and installed.
 
 ## Install

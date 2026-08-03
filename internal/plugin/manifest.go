@@ -39,8 +39,8 @@ var (
 			`(?:\.(?:0|[1-9]\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*))?` +
 			`(?:\+(?:[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$`,
 	)
-	apiRequirementPattern = regexp.MustCompile(`^(\^?)(0|[1-9]\d*)\.(0|[1-9]\d*)$`)
-	apiVersionPattern     = regexp.MustCompile(`^(0|[1-9]\d*)\.(0|[1-9]\d*)$`)
+	apiRequirementPattern = regexp.MustCompile(`^(\^?)(0|[1-9]\d{0,3})\.(0|[1-9]\d{0,3})$`)
+	apiVersionPattern     = regexp.MustCompile(`^(0|[1-9]\d{0,3})\.(0|[1-9]\d{0,3})$`)
 )
 
 type Manifest struct {
@@ -320,13 +320,16 @@ func supportsAPI(requirement, current string) bool {
 	if !requestedMajorOK || !requestedMinorOK || !currentMajorOK || !currentMinorOK {
 		return false
 	}
-	if requested[1] == "^" {
-		if requestedMajor == 0 {
-			return currentMajor == 0 && currentMinor == requestedMinor
-		}
-		return currentMajor == requestedMajor && currentMinor >= requestedMinor
+	if currentMajor != requestedMajor {
+		return false
 	}
-	return currentMajor == requestedMajor && currentMinor == requestedMinor
+	// Minor releases are additive within a stable major API. The caret is
+	// retained as an explicit opt-in spelling, while bare 1.0 remains
+	// compatible with 1.1 so already-published manifests keep working.
+	if requestedMajor != 0 {
+		return currentMinor >= requestedMinor
+	}
+	return currentMinor == requestedMinor
 }
 
 func validSemver(value string) bool {

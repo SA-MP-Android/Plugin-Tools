@@ -9,7 +9,7 @@
 ## 仓库内容
 
 - `samp-plugin`：使用 Go 编写的跨平台 CLI，用于校验插件项目并生成 `.splug` 安装包。
-- `api/schema.json`：当前 Plugin API 1.0 的机器可读契约快照。
+- `api/schema.json`：当前 Plugin API 1.1 的机器可读契约快照。
 - `examples/`：可以独立校验、打包和安装的示例插件。
 
 ## 安装
